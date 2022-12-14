@@ -10,6 +10,8 @@ import java.util.{Map => JMap}
 import codechicken.core.launch.DepLoader
 import cpw.mods.fml.relauncher.{IFMLCallHook, IFMLLoadingPlugin}
 
+@IFMLLoadingPlugin.MCVersion("1.7.10")
+@IFMLLoadingPlugin.TransformerExclusions(Array("mrtjp.core.handler.*"))
 class CorePlugin extends IFMLLoadingPlugin with IFMLCallHook
 {
     override def getASMTransformerClass = Array()

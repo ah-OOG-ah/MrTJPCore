@@ -11,11 +11,10 @@ import mrtjp.core.data.{ModConfig, SpecialConfigGui, TModGuiFactory}
 import net.minecraft.client.gui.GuiScreen
 import org.apache.logging.log4j.LogManager
 
-@Mod(modid = "MrTJPCoreMod", useMetadata = true, modLanguage = "scala", guiFactory = "mrtjp.core.handler.GuiConfigFactory")
+@Mod(modid = "MrTJPCoreMod", useMetadata = true, modLanguage = "scala", guiFactory = "mrtjp.core.handler.GuiConfigFactory", acceptedMinecraftVersions = "[1.7.10]", name = "MrTJPCore", version = MrTJPCoreMod.version)
 object MrTJPCoreMod
 {
-    final val version = "@VERSION@"
-    final val build = "@BUILD_NUMBER@"
+    final val version = "GRADLETOKEN_VERSION"
 
     val log = LogManager.getFormatterLogger("MrTJPCoreMod")
 
