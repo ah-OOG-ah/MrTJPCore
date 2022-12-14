@@ -40,6 +40,7 @@ import java.util.zip.ZipFile;
  * For autodownloading stuff.
  * This is really unoriginal, mostly ripped off FML, credits to cpw.
  */
+@IFMLLoadingPlugin.MCVersion("1.7.10")
 public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook {
     private static ByteBuffer downloadBuffer = ByteBuffer.allocateDirect(1 << 23);
     private static final String owner = "CB's DepLoader";
