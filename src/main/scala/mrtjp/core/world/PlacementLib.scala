@@ -14,7 +14,7 @@ object PlacementLib
     private val wireWhitelist = Seq(Blocks.glowstone, Blocks.piston, Blocks.sticky_piston, Blocks.piston_extension)
     def canPlaceWireOnSide(w:World, x:Int, y:Int, z:Int, side:Int):Boolean =
     {
-        if (!w.blockExists(x, y, z)) return false
+        if (!w.blockExists(x, y, z)) return true
         val b = w.getBlock(x, y, z)
         if (b == null) return false
         wireWhitelist.contains(b)
@@ -24,7 +24,7 @@ object PlacementLib
     private val gateWhiteList = Seq(Blocks.glass)
     def canPlaceGateOnSide(w:World, x:Int, y:Int, z:Int, side:Int):Boolean =
     {
-        if (!w.blockExists(x, y, z)) return false
+        if (!w.blockExists(x, y, z)) return true
         if (canPlaceWireOnSide(w, x, y, z, side)) return true
 
         val b = w.getBlock(x, y, z)
@@ -36,7 +36,7 @@ object PlacementLib
 
     def canPlaceTorchOnBlock(w:World, x:Int, y:Int, z:Int):Boolean =
     {
-        if (!w.blockExists(x, y, z)) return false
+        if (!w.blockExists(x, y, z)) return true
         val b = w.getBlock(x, y, z)
         if (b == null) return false
         b.canPlaceTorchOnTop(w, x, y, z)

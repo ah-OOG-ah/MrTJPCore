@@ -142,5 +142,6 @@ object FXEngine
         glAlphaFunc(GL_GREATER, 0.1F)
         glEnable(GL_LIGHTING)
         glPopMatrix()
+        glDisable(GL_LIGHTING)
     }
 }
