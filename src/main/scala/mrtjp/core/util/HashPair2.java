@@ -1,11 +1,10 @@
 /*
- * Copyright (c) 2014.
- * Created by MrTJP.
- * All rights reserved.
+ * Copyright (c) 2014. Created by MrTJP. All rights reserved.
  */
 package mrtjp.core.util;
 
 public class HashPair2<T1, T2> {
+
     private final T1 val1;
     private final T2 val2;
     private final int hashCode;

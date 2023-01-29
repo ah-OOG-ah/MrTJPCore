@@ -10,104 +10,96 @@ import scala.collection.immutable.BitSet
 import scala.collection.mutable.{BitSet => MBitSet, Builder => MBuilder}
 import scala.collection.{SortedSetLike, immutable}
 
-trait Enum
-{
-    thisenum =>
+trait Enum {
+  thisenum =>
 
-    type EnumVal <: Value
+  type EnumVal <: Value
 
-    private var vals = Vector[EnumVal]()
-    def values = vals
+  private var vals = Vector[EnumVal]()
+  def values = vals
 
-    private final def addEnumVal(newVal:EnumVal):Int =
-    {
-        vals :+= newVal
-        vals.indexOf(newVal)
+  private final def addEnumVal(newVal: EnumVal): Int = {
+    vals :+= newVal
+    vals.indexOf(newVal)
+  }
+
+  def isDefinedAt(idx: Int) = vals.isDefinedAt(idx)
+
+  def apply(ordinal: Int): EnumVal =
+    if (vals.isDefinedAt(ordinal)) vals(ordinal)
+    else null.asInstanceOf[EnumVal]
+
+  protected trait Value extends ValueSubtype
+  protected trait ValueSubtype extends Ordered[EnumVal] {
+    def getThis = this.asInstanceOf[EnumVal]
+
+    final val ordinal = addEnumVal(getThis)
+
+    def name: String
+    override def toString = name
+
+    private[Enum] val outerEnum = thisenum
+
+    override def compare(that: EnumVal) = this.ordinal - that.ordinal
+
+    override def equals(other: Any) = other match {
+      case that: Value =>
+        (outerEnum == that.outerEnum) && (ordinal == that.ordinal)
+      case _ => false
     }
 
-    def isDefinedAt(idx:Int) = vals.isDefinedAt(idx)
+    override def hashCode = 31 * (this.getClass.## + name.## + ordinal)
 
-    def apply(ordinal:Int):EnumVal =
-        if (vals.isDefinedAt(ordinal)) vals(ordinal)
-        else null.asInstanceOf[EnumVal]
+    def +(v: EnumVal) = ValSet(getThis, v)
+    def ++(xs: TraversableOnce[EnumVal]) = (ValSet.newBuilder ++= xs).result()
 
-    protected trait Value extends ValueSubtype
-    protected trait ValueSubtype extends Ordered[EnumVal]
-    {
-        def getThis = this.asInstanceOf[EnumVal]
+    def until(v: EnumVal) = build(ordinal until v.ordinal)
+    def to(v: EnumVal) = build(ordinal to v.ordinal)
+    private def build(r: Range) = {
+      val b = ValSet.newBuilder
+      for (i <- r) b += apply(i)
+      b.result()
+    }
+  }
 
-        final val ordinal = addEnumVal(getThis)
+  object ValOrdering extends Ordering[EnumVal] {
+    override def compare(x: EnumVal, y: EnumVal) = x compare y
+  }
 
-        def name:String
-        override def toString = name
+  class ValSet(var set: BitSet)
+      extends Set[EnumVal]
+      with immutable.SortedSet[EnumVal]
+      with SortedSetLike[EnumVal, ValSet]
+      with Serializable {
+    implicit def ordering = ValOrdering
+    override def empty = ValSet.empty
 
-        private[Enum] val outerEnum = thisenum
+    override def rangeImpl(from: Option[EnumVal], until: Option[EnumVal]) =
+      new ValSet(set.rangeImpl(from.map(_.ordinal), until.map(_.ordinal)))
 
-        override def compare(that:EnumVal) = this.ordinal-that.ordinal
+    override def contains(elem: EnumVal) = set contains elem.ordinal
+    override def +(elem: EnumVal) = new ValSet(set + elem.ordinal)
+    override def -(elem: EnumVal) = new ValSet(set - elem.ordinal)
+    override def iterator = set.iterator map (id => thisenum(id))
+    override def keysIteratorFrom(start: EnumVal) =
+      throw new NotImplementedError("Please report this crash")
+  }
 
-        override def equals(other:Any) = other match
-        {
-            case that:Value => (outerEnum == that.outerEnum) && (ordinal == that.ordinal)
-            case _ => false
-        }
+  object ValSet {
+    val empty = new ValSet(BitSet.empty)
 
-        override def hashCode = 31*(this.getClass.## +name.## +ordinal)
+    def apply(elems: EnumVal*) = (newBuilder ++= elems).result()
 
-        def +(v:EnumVal) = ValSet(getThis, v)
-        def ++(xs:TraversableOnce[EnumVal]) = (ValSet.newBuilder ++= xs).result()
-
-        def until(v:EnumVal) = build(ordinal until v.ordinal)
-        def to(v:EnumVal) = build(ordinal to v.ordinal)
-        private def build(r:Range) =
-        {
-            val b = ValSet.newBuilder
-            for (i <- r) b += apply(i)
-            b.result()
-        }
+    def newBuilder = new MBuilder[EnumVal, ValSet] {
+      private val b = new MBitSet
+      def +=(x: EnumVal) = { b += x.ordinal; this }
+      def clear() = b.clear()
+      def result() = new ValSet(b.toImmutable)
     }
 
-    object ValOrdering extends Ordering[EnumVal]
-    {
-        override def compare(x:EnumVal, y:EnumVal) = x compare y
+    implicit def canBuildFrom = new CanBuildFrom[ValSet, EnumVal, ValSet] {
+      def apply(from: ValSet) = newBuilder
+      def apply() = newBuilder
     }
-
-    class ValSet(var set:BitSet) extends Set[EnumVal]
-    with immutable.SortedSet[EnumVal]
-    with SortedSetLike[EnumVal, ValSet]
-    with Serializable
-    {
-        implicit def ordering = ValOrdering
-        override def empty = ValSet.empty
-
-        override def rangeImpl(from:Option[EnumVal], until:Option[EnumVal]) =
-            new ValSet(set.rangeImpl(from.map(_.ordinal), until.map(_.ordinal)))
-
-        override def contains(elem:EnumVal) = set contains elem.ordinal
-        override def +(elem:EnumVal) = new ValSet(set + elem.ordinal)
-        override def -(elem:EnumVal) = new ValSet(set - elem.ordinal)
-        override def iterator = set.iterator map (id => thisenum(id))
-        override def keysIteratorFrom(start: EnumVal) =
-            throw new NotImplementedError("Please report this crash")
-    }
-
-    object ValSet
-    {
-        val empty = new ValSet(BitSet.empty)
-
-        def apply(elems:EnumVal*) = (newBuilder ++= elems).result()
-
-        def newBuilder = new MBuilder[EnumVal, ValSet]
-        {
-            private val b = new MBitSet
-            def +=(x:EnumVal) = {b += x.ordinal; this}
-            def clear() = b.clear()
-            def result() = new ValSet(b.toImmutable)
-        }
-
-        implicit def canBuildFrom = new CanBuildFrom[ValSet, EnumVal, ValSet]
-        {
-            def apply(from:ValSet) = newBuilder
-            def apply() = newBuilder
-        }
-    }
+  }
 }

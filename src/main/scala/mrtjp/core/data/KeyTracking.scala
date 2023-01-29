@@ -18,74 +18,70 @@ import net.minecraft.entity.player.EntityPlayer
 
 import scala.collection.mutable.{HashMap => MHashMap, Map => MMap}
 
-object KeyTracking
-{
-    private var idPool = 0
-    private val map = MHashMap[Int, MMap[EntityPlayer, Boolean]]()
+object KeyTracking {
+  private var idPool = 0
+  private val map = MHashMap[Int, MMap[EntityPlayer, Boolean]]()
 
-    def updatePlayerKey(id:Int, player:EntityPlayer, state:Boolean)
-    {
-        map(id) += player -> state
-    }
+  def updatePlayerKey(id: Int, player: EntityPlayer, state: Boolean) {
+    map(id) += player -> state
+  }
 
-    def registerTracker(tracker:TServerKeyTracker)
-    {
-        tracker.id = idPool
-        idPool += 1
-        map.getOrElseUpdate(tracker.id,
-            MHashMap[EntityPlayer, Boolean]().withDefaultValue(false))
-    }
+  def registerTracker(tracker: TServerKeyTracker) {
+    tracker.id = idPool
+    idPool += 1
+    map.getOrElseUpdate(
+      tracker.id,
+      MHashMap[EntityPlayer, Boolean]().withDefaultValue(false)
+    )
+  }
 
-    def isKeyDown(id:Int, player:EntityPlayer) = map(id)(player)
+  def isKeyDown(id: Int, player: EntityPlayer) = map(id)(player)
 }
 
-trait TServerKeyTracker
-{
-    var id = -1
+trait TServerKeyTracker {
+  var id = -1
 
-    def isKeyDown(p:EntityPlayer) = KeyTracking.isKeyDown(id, p)
+  def isKeyDown(p: EntityPlayer) = KeyTracking.isKeyDown(id, p)
 
-    def register()
-    {
-        KeyTracking.registerTracker(this)
-    }
+  def register() {
+    KeyTracking.registerTracker(this)
+  }
 }
 
-trait TClientKeyTracker
-{
-    private var wasPressed = false
+trait TClientKeyTracker {
+  private var wasPressed = false
 
-    def getTracker:TServerKeyTracker
+  def getTracker: TServerKeyTracker
 
-    def getIsKeyPressed:Boolean
+  def getIsKeyPressed: Boolean
 
-    @SubscribeEvent
-    @SideOnly(Side.CLIENT)
-    def tick(event:ClientTickEvent)
-    {
-        val pressed = getIsKeyPressed
-        if(pressed != wasPressed)
-        {
-            wasPressed = pressed
-            if (Minecraft.getMinecraft.getNetHandler != null)
-            {
-                KeyTracking.updatePlayerKey(getTracker.id, Minecraft.getMinecraft.thePlayer, pressed)
-                val packet = new PacketCustom(MrTJPCoreSPH.channel, MrTJPCoreSPH.keyBindPacket)
-                packet.writeByte(getTracker.id)
-                packet.writeBoolean(pressed)
-                packet.sendToServer()
-            }
-        }
+  @SubscribeEvent
+  @SideOnly(Side.CLIENT)
+  def tick(event: ClientTickEvent) {
+    val pressed = getIsKeyPressed
+    if (pressed != wasPressed) {
+      wasPressed = pressed
+      if (Minecraft.getMinecraft.getNetHandler != null) {
+        KeyTracking.updatePlayerKey(
+          getTracker.id,
+          Minecraft.getMinecraft.thePlayer,
+          pressed
+        )
+        val packet =
+          new PacketCustom(MrTJPCoreSPH.channel, MrTJPCoreSPH.keyBindPacket)
+        packet.writeByte(getTracker.id)
+        packet.writeBoolean(pressed)
+        packet.sendToServer()
+      }
     }
+  }
 
-    @SideOnly(Side.CLIENT)
-    def register()
-    {
-        FMLCommonHandler.instance().bus().register(this)
-        this match
-        {
-            case kb:KeyBinding => ClientRegistry.registerKeyBinding(kb)
-            case _ =>
-        }
+  @SideOnly(Side.CLIENT)
+  def register() {
+    FMLCommonHandler.instance().bus().register(this)
+    this match {
+      case kb: KeyBinding => ClientRegistry.registerKeyBinding(kb)
+      case _              =>
     }
+  }
 }

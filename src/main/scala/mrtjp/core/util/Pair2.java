@@ -1,11 +1,10 @@
 /*
- * Copyright (c) 2014.
- * Created by MrTJP.
- * All rights reserved.
+ * Copyright (c) 2014. Created by MrTJP. All rights reserved.
  */
 package mrtjp.core.util;
 
 public class Pair2<T1, T2> {
+
     private T1 val1;
     private T2 val2;
 

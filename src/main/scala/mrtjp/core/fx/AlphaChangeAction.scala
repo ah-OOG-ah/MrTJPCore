@@ -7,54 +7,45 @@ package mrtjp.core.fx
 
 import mrtjp.core.fx.particles.CoreParticle
 
-trait TAlphaParticle extends CoreParticle
-{
-    var alpha = 1.0
+trait TAlphaParticle extends CoreParticle {
+  var alpha = 1.0
 }
 
-class AlphaChangeToAction extends ParticleAction
-{
-    var target = 0.0
-    var duration = 0.0
+class AlphaChangeToAction extends ParticleAction {
+  var target = 0.0
+  var duration = 0.0
 
-    override def canOperate(p:CoreParticle) = p.isInstanceOf[TAlphaParticle]
+  override def canOperate(p: CoreParticle) = p.isInstanceOf[TAlphaParticle]
 
-    override def operate(p:CoreParticle, time:Double)
-    {
-        val p2 = p.asInstanceOf[TAlphaParticle]
+  override def operate(p: CoreParticle, time: Double) {
+    val p2 = p.asInstanceOf[TAlphaParticle]
 
-        if (time < duration)
-        {
-            val da = target-p2.alpha
-            val speed = da*(1/(duration-time))*deltaTime(time)
-            p2.alpha = p2.alpha+speed
-        }
-        else isFinished = true
-    }
+    if (time < duration) {
+      val da = target - p2.alpha
+      val speed = da * (1 / (duration - time)) * deltaTime(time)
+      p2.alpha = p2.alpha + speed
+    } else isFinished = true
+  }
 
-    override def compile(p:CoreParticle)
-    {
-    }
+  override def compile(p: CoreParticle) {}
 
-    override def copy = ParticleAction.changeAlphaTo(target, duration)
+  override def copy = ParticleAction.changeAlphaTo(target, duration)
 }
 
-class AlphaChangeForAction extends ParticleAction
-{
-    var delta = 0.0
-    var duration = 0.0
+class AlphaChangeForAction extends ParticleAction {
+  var delta = 0.0
+  var duration = 0.0
 
-    override def canOperate(p:CoreParticle) = p.isInstanceOf[TAlphaParticle]
+  override def canOperate(p: CoreParticle) = p.isInstanceOf[TAlphaParticle]
 
-    override def operate(p:CoreParticle, time:Double)
-    {
-        val p2 = p.asInstanceOf[TAlphaParticle]
+  override def operate(p: CoreParticle, time: Double) {
+    val p2 = p.asInstanceOf[TAlphaParticle]
 
-        if (time < duration) p2.alpha = p2.alpha+delta*deltaTime(time)
-        else isFinished = true
-    }
+    if (time < duration) p2.alpha = p2.alpha + delta * deltaTime(time)
+    else isFinished = true
+  }
 
-    override def compile(p:CoreParticle){}
+  override def compile(p: CoreParticle) {}
 
-    override def copy = ParticleAction.changeAlphaFor(delta, duration)
+  override def copy = ParticleAction.changeAlphaFor(delta, duration)
 }

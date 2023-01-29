@@ -12,21 +12,19 @@ import cpw.mods.fml.relauncher.{IFMLCallHook, IFMLLoadingPlugin}
 
 @IFMLLoadingPlugin.MCVersion("1.7.10")
 @IFMLLoadingPlugin.TransformerExclusions(Array("mrtjp.core.handler.*"))
-class CorePlugin extends IFMLLoadingPlugin with IFMLCallHook
-{
-    override def getASMTransformerClass = Array()
+class CorePlugin extends IFMLLoadingPlugin with IFMLCallHook {
+  override def getASMTransformerClass = Array()
 
-    override def getSetupClass = "mrtjp.core.handler.CorePlugin"
+  override def getSetupClass = "mrtjp.core.handler.CorePlugin"
 
-    override def getModContainerClass = null
+  override def getModContainerClass = null
 
-    override def getAccessTransformerClass = null
+  override def getAccessTransformerClass = null
 
-    override def injectData(data:JMap[String, AnyRef]){}
+  override def injectData(data: JMap[String, AnyRef]) {}
 
-    override def call():Void =
-    {
-        DepLoader.load()
-        null
-    }
+  override def call(): Void = {
+    DepLoader.load()
+    null
+  }
 }

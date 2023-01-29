@@ -7,17 +7,15 @@ package mrtjp.core.fx
 
 import mrtjp.core.fx.particles.CoreParticle
 
-class DelayAction extends ParticleAction
-{
-    var delay = -1.0
+class DelayAction extends ParticleAction {
+  var delay = -1.0
 
-    override def operate(p:CoreParticle, time:Double)
-    {
-        if (time > delay)
-            isFinished = true
-    }
+  override def operate(p: CoreParticle, time: Double) {
+    if (time > delay)
+      isFinished = true
+  }
 
-    override def compile(p:CoreParticle){}
+  override def compile(p: CoreParticle) {}
 
-    override def copy = ParticleAction.delay(delay)
+  override def copy = ParticleAction.delay(delay)
 }

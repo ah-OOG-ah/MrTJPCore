@@ -7,24 +7,21 @@ package mrtjp.core.fx
 
 import mrtjp.core.fx.particles.CoreParticle
 
-trait TTextureParticle extends CoreParticle
-{
-    var texture = ""
+trait TTextureParticle extends CoreParticle {
+  var texture = ""
 }
 
-class TextureChangeAction extends ParticleAction
-{
-    var tex = ""
+class TextureChangeAction extends ParticleAction {
+  var tex = ""
 
-    override def canOperate(p:CoreParticle) = p.isInstanceOf[TTextureParticle]
+  override def canOperate(p: CoreParticle) = p.isInstanceOf[TTextureParticle]
 
-    override def operate(p:CoreParticle, time:Double)
-    {
-        p.asInstanceOf[TTextureParticle].texture = tex
-        isFinished = true
-    }
+  override def operate(p: CoreParticle, time: Double) {
+    p.asInstanceOf[TTextureParticle].texture = tex
+    isFinished = true
+  }
 
-    override def compile(p:CoreParticle){}
+  override def compile(p: CoreParticle) {}
 
-    override def copy = ParticleAction.changeTexture(tex)
+  override def copy = ParticleAction.changeTexture(tex)
 }

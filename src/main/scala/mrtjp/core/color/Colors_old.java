@@ -1,20 +1,21 @@
 /*
- * Copyright (c) 2014.
- * Created by MrTJP.
- * All rights reserved.
+ * Copyright (c) 2014. Created by MrTJP. All rights reserved.
  */
 package mrtjp.core.color;
+
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+
+import org.lwjgl.opengl.GL11;
 
 import codechicken.lib.colour.Colour;
 import codechicken.lib.colour.ColourRGBA;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import org.lwjgl.opengl.GL11;
 
 @Deprecated
 public enum Colors_old {
+
     WHITE(0xFFFFFF),
     ORANGE(0xC06300),
     MAGENTA(0xB51AB5),
@@ -33,24 +34,9 @@ public enum Colors_old {
     BLACK(0x1F1F1F);
 
     public static final Colors_old[] VALID_COLORS = values();
-    private static final String[] dyeDictionary = {
-        "dyeBlack",
-        "dyeRed",
-        "dyeGreen",
-        "dyeBrown",
-        "dyeBlue",
-        "dyePurple",
-        "dyeCyan",
-        "dyeLightGray",
-        "dyeGray",
-        "dyePink",
-        "dyeLime",
-        "dyeYellow",
-        "dyeLightBlue",
-        "dyeMagenta",
-        "dyeOrange",
-        "dyeWhite"
-    };
+    private static final String[] dyeDictionary = { "dyeBlack", "dyeRed", "dyeGreen", "dyeBrown", "dyeBlue",
+            "dyePurple", "dyeCyan", "dyeLightGray", "dyeGray", "dyePink", "dyeLime", "dyeYellow", "dyeLightBlue",
+            "dyeMagenta", "dyeOrange", "dyeWhite" };
 
     private Colors_old(int rgb) {
         name = name().substring(0, 1) + name().substring(1).toLowerCase();

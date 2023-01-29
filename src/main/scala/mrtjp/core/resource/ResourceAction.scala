@@ -9,12 +9,15 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.audio.PositionedSoundRecord
 import net.minecraft.util.ResourceLocation
 
-class ResourceAction(loc:ResourceLocation)
-{
-    def mc = Minecraft.getMinecraft
+class ResourceAction(loc: ResourceLocation) {
+  def mc = Minecraft.getMinecraft
 
-    def bind(){mc.renderEngine.bindTexture(loc)}
+  def bind() { mc.renderEngine.bindTexture(loc) }
 
-    def play(){play(1.0F)}
-    def play(volume:Float){mc.getSoundHandler.playSound(PositionedSoundRecord.func_147674_a(loc, volume))}
+  def play() { play(1.0f) }
+  def play(volume: Float) {
+    mc.getSoundHandler.playSound(
+      PositionedSoundRecord.func_147674_a(loc, volume)
+    )
+  }
 }

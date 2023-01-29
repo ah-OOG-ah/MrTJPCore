@@ -7,15 +7,13 @@ package mrtjp.core.fx
 
 import mrtjp.core.fx.particles.CoreParticle
 
-class KillAction extends ParticleAction
-{
-    override def operate(p:CoreParticle, time:Double)
-    {
-        p.setDead()
-        isFinished = true
-    }
+class KillAction extends ParticleAction {
+  override def operate(p: CoreParticle, time: Double) {
+    p.setDead()
+    isFinished = true
+  }
 
-    override def compile(p:CoreParticle){}
+  override def compile(p: CoreParticle) {}
 
-    override def copy = ParticleAction.kill()
+  override def copy = ParticleAction.kill()
 }

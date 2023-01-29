@@ -1,7 +1,5 @@
 /*
- * Copyright (c) 2014.
- * Created by MrTJP.
- * All rights reserved.
+ * Copyright (c) 2014. Created by MrTJP. All rights reserved.
  */
 package mrtjp.core.util;
 
@@ -12,6 +10,7 @@ import java.util.concurrent.TimeUnit;
  * @author Andrey Redko - http://aredko.blogspot.com
  */
 public class PostponedWorkItem<T> implements Delayed {
+
     private final long origin;
     private final long delay;
     private final T workItem;

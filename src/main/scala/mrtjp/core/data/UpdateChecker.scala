@@ -5,28 +5,26 @@
  */
 package mrtjp.core.data
 
-trait UpdateChecker extends Thread
-{
-    setName(project+" version checker")
+trait UpdateChecker extends Thread {
+  setName(project + " version checker")
 
-    def project:String
-    def changelogURL:String
+  def project: String
+  def changelogURL: String
 
-    def currentVersion:String
-    def shouldRun:Boolean
+  def currentVersion: String
+  def shouldRun: Boolean
 
-    val availableVersions = downloadVersions
+  val availableVersions = downloadVersions
 
-    def downloadVersions:Seq[String] =
-    {
-        Seq.empty
-    }
+  def downloadVersions: Seq[String] = {
+    Seq.empty
+  }
 
-    def isVersionOutdated(v:String) = false
+  def isVersionOutdated(v: String) = false
 
-    var updatesChecked = true
+  var updatesChecked = true
 
-    override def run() {}
+  override def run() {}
 
-    start()
+  start()
 }
