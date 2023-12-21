@@ -5,20 +5,16 @@
  */
 package mrtjp.core.data
 
-import java.io.File
-import java.util.{ArrayList => JAList}
-
-import cpw.mods.fml.client.IModGuiFactory
-import cpw.mods.fml.client.IModGuiFactory.RuntimeOptionCategoryElement
 import cpw.mods.fml.client.config.DummyConfigElement.DummyCategoryElement
 import cpw.mods.fml.client.config.{GuiConfig, IConfigElement}
 import cpw.mods.fml.client.event.ConfigChangedEvent
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import cpw.mods.fml.common.{FMLCommonHandler, Loader}
-import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import net.minecraftforge.common.config.{ConfigElement, Configuration, Property}
 
+import java.io.File
+import java.util.{ArrayList => JAList}
 import scala.collection.JavaConversions._
 
 abstract class ModConfig(modID: String) {
@@ -126,8 +122,3 @@ class SpecialConfigGui(parent: GuiScreen, modid: String, config: Configuration)
       GuiConfig.getAbridgedConfigPath(config.toString)
     )
 
-trait TModGuiFactory extends IModGuiFactory {
-  override def initialize(minecraftInstance: Minecraft) {}
-  override def runtimeGuiCategories() = null
-  override def getHandlerFor(element: RuntimeOptionCategoryElement) = null
-}

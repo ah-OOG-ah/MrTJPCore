@@ -36,7 +36,7 @@ import scala.collection.mutable.ListBuffer;
 
 public class InstancedBlock extends BlockContainer {
 
-    InstancedBlock(String name, Material mat) {
+    public InstancedBlock(String name, Material mat) {
         super(mat);
         setBlockName(name);
         GameRegistry.registerBlock(this, getItemBlockClass(), name);
