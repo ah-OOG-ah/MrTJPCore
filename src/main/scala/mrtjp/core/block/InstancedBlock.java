@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.stream.IntStream;
 
+import mrtjp.core.handler.MrTJPCoreMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -50,7 +51,11 @@ public class InstancedBlock extends BlockContainer {
     private final List<Class<? extends InstancedBlockTile>> tiles = new ArrayList<>(16);
 
     public void addTile(Class<? extends InstancedBlockTile> t, int meta) {
-        tiles.set(meta, t);
+        if (tiles.size() == meta) {
+            tiles.add(t);
+        } else {
+            tiles.set(meta, t);
+        }
         GameRegistry.registerTileEntity(t, getUnlocalizedName() + "|" + meta);
     }
 
