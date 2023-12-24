@@ -14,41 +14,9 @@ import cpw.mods.fml.relauncher.{Side, SideOnly}
 import mrtjp.core.handler.MrTJPCoreSPH
 import net.minecraft.client.Minecraft
 import net.minecraft.client.settings.KeyBinding
-import net.minecraft.entity.player.EntityPlayer
 
-import java.util.UUID
 import scala.collection.mutable.{HashMap => MHashMap, Map => MMap}
 
-object KeyTracking {
-  private var idPool = 0
-  private val map = MHashMap[Int, MMap[UUID, Boolean]]()
-
-  def updatePlayerKey(id: Int, player: EntityPlayer, state: Boolean) {
-    map(id) += player.getGameProfile.getId -> state
-  }
-
-  def registerTracker(tracker: TServerKeyTracker) {
-    tracker.id = idPool
-    idPool += 1
-    map.getOrElseUpdate(
-      tracker.id,
-      MHashMap[UUID, Boolean]().withDefaultValue(false)
-    )
-  }
-
-  def isKeyDown(id: Int, player: EntityPlayer) =
-    map(id)(player.getGameProfile.getId)
-}
-
-trait TServerKeyTracker {
-  var id = -1
-
-  def isKeyDown(p: EntityPlayer) = KeyTracking.isKeyDown(id, p)
-
-  def register() {
-    KeyTracking.registerTracker(this)
-  }
-}
 
 trait TClientKeyTracker {
   private var wasPressed = false

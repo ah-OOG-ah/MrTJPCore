@@ -140,12 +140,12 @@ public class InstancedBlock extends BlockContainer {
 
     @Override
     public ArrayList<ItemStack> getDrops(World w, int x, int y, int z, int meta, int fortune) {
-        ListBuffer<ItemStack> list = new ListBuffer<>();
+        ArrayList<ItemStack> list = new ArrayList<>();
         TileEntity t = w.getTileEntity(x, y, z);
         if (t instanceof InstancedBlockTile) {
             ((InstancedBlockTile) t).addHarvestContents(list);
         }
-        return new ArrayList<>(JavaConverters.asJavaCollectionConverter(list).asJavaCollection());
+        return list;
     }
 
     @Override

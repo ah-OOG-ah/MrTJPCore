@@ -18,7 +18,7 @@ class MrTJPCoreProxy_server {
   def preInit() {}
 
   def init() {
-    PacketCustom.assignHandler(MrTJPCoreSPH.channel, MrTJPCoreSPH)
+    PacketCustom.assignHandler(MrTJPCoreSPH.channel, MrTJPCoreSPH.instance)
     SimpleGenHandler.init()
   }
 
@@ -34,7 +34,7 @@ class MrTJPCoreProxy_client extends MrTJPCoreProxy_server {
   @SideOnly(Side.CLIENT)
   override def init() {
     super.init()
-    PacketCustom.assignHandler(MrTJPCoreCPH.channel, MrTJPCoreCPH)
+    PacketCustom.assignHandler(MrTJPCoreCPH.channel, MrTJPCoreCPH.instance)
 
     TileRenderRegistry.renderID = RenderingRegistry.getNextAvailableRenderId
     RenderingRegistry.registerBlockHandler(TileRenderRegistry)

@@ -5,46 +5,8 @@
  */
 package mrtjp.core.handler
 
-import cpw.mods.fml.common.Mod
-import cpw.mods.fml.common.event.{
-  FMLInitializationEvent,
-  FMLPostInitializationEvent,
-  FMLPreInitializationEvent
-}
 import mrtjp.core.data.{ModConfig, SpecialConfigGui, TModGuiFactory}
 import net.minecraft.client.gui.GuiScreen
-import org.apache.logging.log4j.LogManager
-
-@Mod(
-  modid = "MrTJPCoreMod",
-  useMetadata = true,
-  modLanguage = "scala",
-  guiFactory = "mrtjp.core.handler.GuiConfigFactory",
-  acceptedMinecraftVersions = "[1.7.10]",
-  name = "MrTJPCore",
-  version = MrTJPCoreMod.version
-)
-object MrTJPCoreMod {
-  final val version = "GRADLETOKEN_VERSION"
-
-  val log = LogManager.getFormatterLogger("MrTJPCoreMod")
-
-  @Mod.EventHandler
-  def preInit(event: FMLPreInitializationEvent) {
-    MrTJPConfig.loadConfig()
-    MrTJPCoreProxy.preInit()
-  }
-
-  @Mod.EventHandler
-  def init(event: FMLInitializationEvent) {
-    MrTJPCoreProxy.init()
-  }
-
-  @Mod.EventHandler
-  def postInit(event: FMLPostInitializationEvent) {
-    MrTJPCoreProxy.postInit()
-  }
-}
 
 object MrTJPConfig extends ModConfig("MrTJPCoreMod") {
   var retro_gen = false
