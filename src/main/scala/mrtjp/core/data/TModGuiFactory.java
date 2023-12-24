@@ -1,6 +1,10 @@
 package mrtjp.core.data;
 
 import cpw.mods.fml.client.IModGuiFactory;
+// DO NOT REMOVE THESE IMPORTS
+import cpw.mods.fml.client.IModGuiFactory.RuntimeOptionGuiHandler;
+import cpw.mods.fml.client.IModGuiFactory.RuntimeOptionCategoryElement;
+// Scala compiler is too dumb to compile this without the above imports
 import net.minecraft.client.Minecraft;
 
 import java.util.Set;

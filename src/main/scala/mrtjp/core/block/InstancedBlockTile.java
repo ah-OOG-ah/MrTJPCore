@@ -1,6 +1,7 @@
 package mrtjp.core.block;
 
 import codechicken.lib.data.MCDataInput;
+import codechicken.lib.data.MCDataOutput;
 import codechicken.lib.packet.ICustomPacketTile;
 import codechicken.lib.packet.PacketCustom;
 import codechicken.lib.vec.Cuboid6;
@@ -196,7 +197,7 @@ public abstract class InstancedBlockTile extends TileEntity implements ICustomPa
     public void read(MCDataInput in, int key) {}
 
     public void readDesc(MCDataInput in) {}
-    public void writeDesc(PacketCustom out) {}
+    public void writeDesc(MCDataOutput out) {}
 
     final public PacketCustom writeStream(int key) {
 

@@ -5,7 +5,6 @@
  */
 package mrtjp.core.block
 
-import codechicken.lib.vec.{BlockCoord, Rotation, Vector3}
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler
 import net.minecraft.block.Block
 import net.minecraft.client.renderer.RenderBlocks
@@ -105,42 +104,4 @@ object NullRenderer extends TInstancedBlockRender {
   override def getIcon(side: Int, meta: Int) = null
   override def renderInvBlock(r: RenderBlocks, meta: Int) {}
   override def registerIcons(reg: IIconRegister) {}
-}
-
-trait TTileOrient extends InstancedBlockTile {
-  var orientation: Byte = 0
-
-  def side = orientation >> 2
-
-  def setSide(s: Int) {
-    val oldOrient = orientation
-    orientation = (orientation & 0x3 | s << 2).toByte
-    if (oldOrient != orientation) onOrientChanged(oldOrient)
-  }
-
-  def rotation = orientation & 0x3
-
-  def setRotation(r: Int) {
-    val oldOrient = orientation
-    orientation = (orientation & 0xfc | r).toByte
-    if (oldOrient != orientation) onOrientChanged(oldOrient)
-  }
-
-  def position = new BlockCoord(xCoord, yCoord, zCoord)
-
-  def rotationT = Rotation.sideOrientation(side, rotation).at(Vector3.center)
-
-  def onOrientChanged(oldOrient: Int) {}
-
-  // internal r from absRot
-  def toInternal(absRot: Int) = (absRot + 6 - rotation) % 4
-
-  // absRot from internal r
-  def toAbsolute(r: Int) = (r + rotation + 2) % 4
-
-  // absDir from absRot
-  def absoluteDir(absRot: Int) = Rotation.rotateSide(side, absRot)
-
-  // absRot from absDir
-  def absoluteRot(absDir: Int) = Rotation.rotationTo(side, absDir)
 }
