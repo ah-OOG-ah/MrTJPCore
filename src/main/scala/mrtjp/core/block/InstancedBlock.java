@@ -6,7 +6,6 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-import mrtjp.core.handler.MrTJPCoreMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -32,8 +31,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mrtjp.core.world.WorldLib;
-import scala.collection.JavaConverters;
-import scala.collection.mutable.ListBuffer;
 
 public class InstancedBlock extends BlockContainer {
 

@@ -102,13 +102,15 @@ public abstract class InstancedBlockTile extends TileEntity implements ICustomPa
         return ist;
     }
 
-    public World world = worldObj;
+    public World world() {
+        return this.worldObj;
+    }
     public int x = xCoord;
     public int y = yCoord;
     public int z = zCoord;
 
     public void scheduleTick(int time) {
-        long tn = world.getTotalWorldTime() + time;
+        long tn = world().getTotalWorldTime() + time;
         if (schedTick > 0L && schedTick < tn) return;
         schedTick = tn;
         markDirty();
@@ -121,35 +123,35 @@ public abstract class InstancedBlockTile extends TileEntity implements ICustomPa
     public void breakBlock_do() {
         List<ItemStack> il = new ArrayList<>();
         addHarvestContents(il);
-        for (ItemStack stack : il) WorldLib.dropItem(world, x, y, z, stack);
-        world.setBlockToAir(x, y, z);
+        for (ItemStack stack : il) WorldLib.dropItem(world(), x, y, z, stack);
+        world().setBlockToAir(x, y, z);
     }
 
     @Override
     public void markDirty() {
-        world.markTileEntityChunkModified(x, y, z, this);
+        world().markTileEntityChunkModified(x, y, z, this);
     }
 
     final public void markRender() {
-        world.func_147479_m(x, y, z);
+        world().func_147479_m(x, y, z);
     }
 
     final public void markLight() {
-        world.func_147451_t(x, y, z);
+        world().func_147451_t(x, y, z);
     }
 
     final public void markDescUpdate() {
-        world.markBlockForUpdate(x, y, z);
+        world().markBlockForUpdate(x, y, z);
     }
 
     @Override
     final public void updateEntity() {
-        if (world.isRemote) {
+        if (world().isRemote) {
             updateClient();
             return;
         } else update();
         if (schedTick < 0L) return;
-        long time = world.getTotalWorldTime();
+        long time = world().getTotalWorldTime();
         if (schedTick <= time) {
             schedTick = -1L;
             onScheduledTick();
@@ -225,7 +227,7 @@ public abstract class InstancedBlockTile extends TileEntity implements ICustomPa
         }
 
         public void sendToChunk() {
-            out.sendToChunk(parent.world, parent.x >> 4, parent.z >> 4);
+            out.sendToChunk(parent.world(), parent.x >> 4, parent.z >> 4);
         }
     }
 }
