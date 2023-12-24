@@ -31,10 +31,11 @@ public interface TCubeMapRender extends TInstancedBlockRender {
             .collect(Collectors.toList());
         CCModel box = CCModel.quadModel(24).generateBlock(0, Cuboid6.full);
         for (int s = 0; s < 6; ++s) {
+            array.get(s).clear();
             for (int r = 0; r < 4; ++r) {
                 CCModel m = box.copy().apply(Rotation.sideOrientation(s, r).at(Vector3.center));
                 m.computeNormals();
-                array.get(s).set(r, m);
+                array.get(s).add(m);
             }
         }
         return array;

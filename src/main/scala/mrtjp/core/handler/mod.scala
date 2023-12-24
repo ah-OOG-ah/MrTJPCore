@@ -18,7 +18,7 @@ object MrTJPConfig extends ModConfig("MrTJPCoreMod") {
   override def getFileName = "MrTJPCore"
 
   override protected def initValues() {
-    val general = new BaseCategory("General", "General settings for MrTJPCore")
+    val general = new BaseCategory(this, "General", "General settings for MrTJPCore")
     check_versions = general.put(
       "Version Checking",
       check_versions,
@@ -31,7 +31,7 @@ object MrTJPConfig extends ModConfig("MrTJPCoreMod") {
     )
 
     val gen =
-      new BaseCategory("World Gen", "Settings related to world generation")
+      new BaseCategory(this, "World Gen", "Settings related to world generation")
     retro_gen = gen.put(
       "Retroactive World Generation",
       retro_gen,
