@@ -1,7 +1,9 @@
 package mrtjp.core.block;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 import java.util.stream.IntStream;
@@ -32,38 +34,49 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mrtjp.core.world.WorldLib;
 
+/**
+ * InstancedBlocks implement ITileEntityProvider, but may not label themselves as TEs
+ */
 public class InstancedBlock extends BlockContainer {
 
+    // Upon creation, this block registers itself... I feel like that could be an issue
     public InstancedBlock(String name, Material mat) {
         super(mat);
         setBlockName(name);
         GameRegistry.registerBlock(this, getItemBlockClass(), name);
     }
 
+    private boolean singleTile = false;
+    private final Map<Integer, Class<? extends InstancedBlockTile>> tiles = new HashMap<>(16);
+
+
     public Class<? extends ItemBlock> getItemBlockClass() {
         return ItemBlockCore.class;
     }
 
-    private boolean singleTile = false;
-    private final List<Class<? extends InstancedBlockTile>> tiles = new ArrayList<>(16);
-
+    /**
+     * Registers the given class as a TE with the registry, and stores it as a tile of this block with the given meta.
+     */
     public void addTile(Class<? extends InstancedBlockTile> t, int meta) {
-        if (tiles.size() == meta) {
-            tiles.add(t);
-        } else {
-            tiles.set(meta, t);
-        }
+        // Not sure if this branch is ever used
+        tiles.put(meta, t);
         GameRegistry.registerTileEntity(t, getUnlocalizedName() + "|" + meta);
     }
 
+    /**
+     * If you only want to use one meta, use this
+     */
     public void addSingleTile(Class<? extends InstancedBlockTile> t) {
         addTile(t, 0);
         singleTile = true;
     }
 
+    /**
+     * Originally, MrTJPCore only looked for any meta with a TE, not a TE with the given meta. For now, I leave it be.
+     */
     @Override
     public boolean hasTileEntity(int metadata) {
-        return tiles.stream().anyMatch(Objects::nonNull);
+        return !tiles.isEmpty();
     }
 
     @Override
