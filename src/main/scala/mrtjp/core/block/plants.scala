@@ -5,15 +5,14 @@
  */
 package mrtjp.core.block
 
-import java.util.Random
-
-import codechicken.lib.vec.Cuboid6
 import net.minecraft.block.{Block, IGrowable}
 import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.item.{ItemStack, Item}
+import net.minecraft.item.{Item, ItemStack}
 import net.minecraft.world.{IBlockAccess, World}
 import net.minecraftforge.common.util.ForgeDirection
 import net.minecraftforge.common.{EnumPlantType, IPlantable}
+
+import java.util.Random
 
 trait TPlantBlock extends InstancedBlock with IPlantable with IGrowable {
   setTickRandomly(true)
@@ -81,8 +80,8 @@ trait TPlantBlock extends InstancedBlock with IPlantable with IGrowable {
 trait TPlantTile extends InstancedBlockTile {
   override def getCollisionBounds = null
 
-  def canBlockStay = world.getBlock(x, y, z) match {
-    case p: TPlantBlock => p.initialCanStay(world, x, y, z)
+  def canBlockStay = world.getBlock(xCoord, yCoord, zCoord) match {
+    case p: TPlantBlock => p.initialCanStay(world, xCoord, yCoord, zCoord)
     case _              => false
   }
 

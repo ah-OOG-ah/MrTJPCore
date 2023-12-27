@@ -105,9 +105,6 @@ public abstract class InstancedBlockTile extends TileEntity implements ICustomPa
     public World world() {
         return this.worldObj;
     }
-    public int x = xCoord;
-    public int y = yCoord;
-    public int z = zCoord;
 
     public void scheduleTick(int time) {
         long tn = world().getTotalWorldTime() + time;
@@ -123,25 +120,25 @@ public abstract class InstancedBlockTile extends TileEntity implements ICustomPa
     public void breakBlock_do() {
         List<ItemStack> il = new ArrayList<>();
         addHarvestContents(il);
-        for (ItemStack stack : il) WorldLib.dropItem(world(), x, y, z, stack);
-        world().setBlockToAir(x, y, z);
+        for (ItemStack stack : il) WorldLib.dropItem(world(), xCoord, yCoord, zCoord, stack);
+        world().setBlockToAir(xCoord, yCoord, zCoord);
     }
 
     @Override
     public void markDirty() {
-        world().markTileEntityChunkModified(x, y, z, this);
+        world().markTileEntityChunkModified(xCoord, yCoord, zCoord, this);
     }
 
     final public void markRender() {
-        world().func_147479_m(x, y, z);
+        world().func_147479_m(xCoord, yCoord, zCoord);
     }
 
     final public void markLight() {
-        world().func_147451_t(x, y, z);
+        world().func_147451_t(xCoord, yCoord, zCoord);
     }
 
     final public void markDescUpdate() {
-        world().markBlockForUpdate(x, y, z);
+        world().markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
     @Override
@@ -204,7 +201,7 @@ public abstract class InstancedBlockTile extends TileEntity implements ICustomPa
     final public PacketCustom writeStream(int key) {
 
         PacketCustom stream = new PacketCustom(MrTJPCoreSPH.channel, MrTJPCoreSPH.instance.tilePacket);
-        stream.writeCoord(x, y, z).writeByte(key);
+        stream.writeCoord(xCoord, yCoord, zCoord).writeByte(key);
         return stream;
     }
 
@@ -227,7 +224,7 @@ public abstract class InstancedBlockTile extends TileEntity implements ICustomPa
         }
 
         public void sendToChunk() {
-            out.sendToChunk(parent.world(), parent.x >> 4, parent.z >> 4);
+            out.sendToChunk(parent.world(), parent.xCoord >> 4, parent.zCoord >> 4);
         }
     }
 }
