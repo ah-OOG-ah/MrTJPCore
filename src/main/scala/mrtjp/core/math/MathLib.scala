@@ -12,17 +12,6 @@ import codechicken.lib.vec.{BlockCoord, Vector3}
 object MathLib {
   def clamp(min: Float, max: Float, v: Float) = Math.min(max, Math.max(min, v))
 
-  def normal(bc: BlockCoord, dir: Int): (Int, Int) =
-    normal(bc.x, bc.y, bc.z, dir)
-  def normal(x: Int, y: Int, z: Int, dir: Int): (Int, Int) = dir match {
-    case 0 => (x, z)
-    case 1 => (x, z)
-    case 2 => (x, y)
-    case 3 => (x, y)
-    case 4 => (y, z)
-    case 5 => (y, z)
-  }
-
   def basis(bc: BlockCoord, dir: Int): Int = basis(bc.x, bc.y, bc.z, dir)
   def basis(x: Int, y: Int, z: Int, dir: Int): Int = dir match {
     case 0 => y

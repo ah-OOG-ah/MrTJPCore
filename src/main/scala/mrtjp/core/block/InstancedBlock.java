@@ -1,13 +1,11 @@
 package mrtjp.core.block;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
-import java.util.stream.IntStream;
-
+import codechicken.lib.vec.Cuboid6;
+import codechicken.lib.vec.Vector3;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import mrtjp.core.world.WorldLib;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -27,12 +25,12 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import codechicken.lib.vec.Cuboid6;
-import codechicken.lib.vec.Vector3;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import mrtjp.core.world.WorldLib;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.IntStream;
 
 /**
  * InstancedBlocks implement ITileEntityProvider, but may not label themselves as TEs
