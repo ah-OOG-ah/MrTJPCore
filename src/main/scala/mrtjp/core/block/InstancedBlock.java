@@ -227,7 +227,7 @@ public class InstancedBlock extends BlockContainer {
             float hz) {
         TileEntity te = w.getTileEntity(x, y, z);
         if (te instanceof InstancedBlockTile) {
-            ((InstancedBlockTile) te).onBlockActivated(player, side);
+            return ((InstancedBlockTile) te).onBlockActivated(player, side);
         }
         return false;
     }

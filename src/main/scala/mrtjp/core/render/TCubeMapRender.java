@@ -2,6 +2,7 @@ package mrtjp.core.render;
 
 import codechicken.lib.render.BlockRenderer;
 import codechicken.lib.render.CCModel;
+import codechicken.lib.render.CCRenderPipeline;
 import codechicken.lib.render.CCRenderState;
 import codechicken.lib.render.TextureUtils;
 import codechicken.lib.render.uv.IconTransformation;
@@ -58,12 +59,13 @@ public interface TCubeMapRender extends TInstancedBlockRender {
         UVTransformation icon = data.getRight();
 
         TextureUtils.bindAtlas(0);
-        CCRenderState.reset();
-        CCRenderState.lightMatrix.locate(w, x, y, z);
+        CCRenderState ccrpi = CCRenderState.instance();
+        ccrpi.reset();
+        ccrpi.lightMatrix.locate(w, x, y, z);
         models.get(s).get(rot).render(
             new Translation(x, y, z),
             icon,
-            CCRenderState.lightMatrix
+            ccrpi.lightMatrix
         );
     }
 
@@ -76,8 +78,9 @@ public interface TCubeMapRender extends TInstancedBlockRender {
         IIcon icon
     ) {
         Block b = w.getBlock(x, y, z);
-        CCRenderState.reset();
-        CCRenderState.setPipeline(
+        CCRenderState ccrpi = CCRenderState.instance();
+        ccrpi.reset();
+        ccrpi.setPipeline(
             new Translation(x, y, z),
             new IconTransformation(icon)
         );
@@ -103,12 +106,13 @@ public interface TCubeMapRender extends TInstancedBlockRender {
 
 
         TextureUtils.bindAtlas(0);
-        CCRenderState.reset();
-        CCRenderState.setDynamic();
-        CCRenderState.pullLightmap();
-        CCRenderState.startDrawing();
+        CCRenderState ccrpi = CCRenderState.instance();
+        ccrpi.reset();
+        ccrpi.setDynamic();
+        ccrpi.pullLightmap();
+        ccrpi.startDrawing();
         models.get(s).get(rot).render(invTranslation, icon);
-        CCRenderState.draw();
+        ccrpi.draw();
     }
 
     Triple<Integer, Integer, UVTransformation> getData(
