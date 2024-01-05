@@ -55,7 +55,8 @@ public class WorldGenVolcanic extends TWorldGenerator {
         final int head = 3 + rand.nextInt(4);
         final int spread = rand.nextInt(3);
 
-        int size = MathLib.randomFromIntRange(sizeMin, sizeMax, rand);
+        // was an until
+        int size = MathLib.randomFromIntRange(sizeMin, sizeMax - 1, rand);
 
         scalaBreak: while (size > 0) {
             while (stack.isEmpty()) {

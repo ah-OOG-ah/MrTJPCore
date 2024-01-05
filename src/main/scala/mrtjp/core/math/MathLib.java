@@ -121,18 +121,25 @@ public class MathLib {
     private static final Random random = new Random();
 
     /**
-     * Returns a number in [a, z)
+     * Returns a number in [a, z]
      */
-    public static int randomFromIntRange(int a, int z) {
+    public static int randomFromToIntRange(int a, int z) {
         return randomFromIntRange(a, z, random);
     }
 
     /**
      * Returns a number in [a, z)
      */
+    public static int randomFromUntilIntRange(int a, int z) {
+        return randomFromIntRange(a, z - 1, random);
+    }
+
+    /**
+     * Returns a number in [a, z]
+     */
     public static int randomFromIntRange(int a, int z, Random rand) {
 
-        return a + rand.nextInt(z - a - 1);
+        return a + rand.nextInt(z - a);
     }
 
     public static int leastSignificant(int mask) {
