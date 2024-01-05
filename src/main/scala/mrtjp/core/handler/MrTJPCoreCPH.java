@@ -13,11 +13,7 @@ public class MrTJPCoreCPH extends MrTJPCorePH implements PacketCustom.IClientPac
 
     public static final String channel =  MrTJPCoreMod.modName;
 
-    public void handlePacket(
-        PacketCustom packet,
-        Minecraft mc,
-        INetHandlerPlayClient nethandler
-    ) {
+    public void handlePacket(PacketCustom packet, Minecraft mc, INetHandlerPlayClient nethandler) {
         final World world = mc.theWorld;
         switch (packet.getType()) {
             case tilePacket: handleTilePacket(world, packet, packet.readCoord()); break;

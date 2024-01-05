@@ -5,13 +5,11 @@
  */
 package mrtjp.core.world
 
-import java.util.Random
-
-import mrtjp.core.math.MathLib
-import net.minecraft.block.Block
 import net.minecraft.world.gen.feature.WorldGenerator
 import net.minecraft.world.{World, WorldType}
 import net.minecraftforge.common.BiomeDictionary
+
+import java.util.Random
 
 trait TGenerationLogic extends ISimpleStructureGen {
   var name = ""
@@ -64,55 +62,6 @@ trait TGenerationLogic extends ISimpleStructureGen {
   }
 
   def generate_impl(w: World, chunkX: Int, chunkZ: Int, rand: Random): Boolean
-}
-
-trait TWorldGenerator extends WorldGenerator {
-  override def generate(w: World, rand: Random, x: Int, y: Int, z: Int): Boolean
-
-  protected def canSetBlock(
-      w: World,
-      x: Int,
-      y: Int,
-      z: Int,
-      material: Set[(Block, Int)]
-  ): Boolean = {
-    if (material.isEmpty) return true
-    val block = w.getBlock(x, y, z)
-    material.exists(pair =>
-      (pair._2 == -1 || pair._2 == w.getBlockMetadata(x, y, z)) &&
-        (block.isReplaceableOreGen(w, x, y, z, pair._1) || block
-          .isAssociatedBlock(pair._1))
-    )
-  }
-
-  protected def setBlock(
-      w: World,
-      x: Int,
-      y: Int,
-      z: Int,
-      cluster: Set[((Block, Int), Int)],
-      material: Set[(Block, Int)]
-  ): Boolean = {
-    if (canSetBlock(w, x, y, z, material)) {
-      val genBlock = MathLib.weightedRandom(cluster, w.rand)
-      w.setBlock(x, y, z, genBlock._1, genBlock._2, 2)
-      true
-    } else false
-  }
-
-  protected def setBlock(
-      w: World,
-      x: Int,
-      y: Int,
-      z: Int,
-      cluster: (Block, Int),
-      material: Set[(Block, Int)]
-  ) = {
-    if (canSetBlock(w, x, y, z, material)) {
-      w.setBlock(x, y, z, cluster._1, cluster._2, 2)
-      true
-    } else false
-  }
 }
 
 class GenLogicUniform extends TGenerationLogic {

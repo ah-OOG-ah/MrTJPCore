@@ -77,31 +77,6 @@ trait TPlantBlock extends InstancedBlock with IPlantable with IGrowable {
   override def func_149853_b(w: World, rand: Random, x: Int, y: Int, z: Int) {}
 }
 
-trait TPlantTile extends InstancedBlockTile {
-  override def getCollisionBounds = null
-
-  def canBlockStay = world.getBlock(xCoord, yCoord, zCoord) match {
-    case p: TPlantBlock => p.initialCanStay(world, xCoord, yCoord, zCoord)
-    case _              => false
-  }
-
-  def applyBonemeal() = false
-
-  override def onNeighborChange(b: Block) {
-    super.onNeighborChange(b)
-    dropIfCantStay
-  }
-
-  def dropIfCantStay = {
-    if (!canBlockStay) {
-      breakBlock_do()
-      true
-    } else false
-  }
-
-  override def isSolid(side: Int) = false
-}
-
 trait TItemSeed extends Item with IPlantable {
   override def onItemUse(
       item: ItemStack,
