@@ -23,18 +23,6 @@ import net.minecraftforge.event.world.ChunkDataEvent
 
 import scala.collection.mutable.{Queue => MQueue}
 
-trait ISimpleStructureGen {
-  def genID: String
-
-  def generate(
-      w: World,
-      chunkX: Int,
-      chunkZ: Int,
-      rand: Random,
-      isRetro: Boolean
-  ): Boolean
-}
-
 object SimpleGenHandler extends IWorldGenerator {
   private var structures = Seq[ISimpleStructureGen]()
   private var structHash = 0L
